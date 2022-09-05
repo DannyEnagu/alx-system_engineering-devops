@@ -1,0 +1,14 @@
+total 16
+drwxr-xr-x 8 root root  216 Sep  5 10:29 .
+drwxr-xr-x 1 root root  145 Aug 31 07:54 ..
+drwxr-xr-x 2 root root 4096 Aug 31 17:15 0x00-shell_basics
+drwxr-xr-x 2 root root 4096 Sep  2 00:57 0x01-shell_permissions
+drwxr-xr-x 2 root root  246 Sep  5 10:29 0x02-shell_redirections
+drwxr-xr-x 8 root root  201 Sep  5 02:58 .git
+-rwxr-x-wx 1 root root    0 Sep  1 07:12 hello
+lrwxrwxrwx 1 root root    7 Aug 31 13:03 __ls__ -> /bin/ls
+-rw-r--r-- 1 root root    0 Sep  5 10:29 ls_cwd_content
+-rwxr-xr-- 1 root root  344 Aug 31 12:39 magic.mgc
+drwxr-x--x 2 root root    6 Sep  1 23:42 my_dir
+-rw-r--r-- 1 root root   84 Aug 31 08:01 README.md
+drwxr-xr-x 3 root root   16 Aug 31 14:57 welcome
