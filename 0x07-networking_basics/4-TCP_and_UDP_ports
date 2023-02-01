@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# This script display summary of a linux internet connection
+netstat -tapx
