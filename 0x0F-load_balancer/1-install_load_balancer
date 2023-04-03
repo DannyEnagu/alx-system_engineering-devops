@@ -1,42 +1,41 @@
 #!/usr/bin/env bash
-# Update packeages and Installs HAproxy load balancer
+# Installs, configures, and starts the load balancer
 sudo apt-get update
 sudo apt-get -y install --no-install-recommends software-properties-common
 sudo add-apt-repository -y ppa:vbernat/haproxy-2.4
 sudo apt-get -y install haproxy
 
-# Important variables definitions.
-CONFIG_FILE='/etc/haproxy/haproxy.cfg'
+# the load balancer's configuration
 DOMAIN_NAME='dannyplus-now.tech'
-DEFAULT_CONFIG='/etc/default/haproxy'
-HAPROXY_CONFIG=\
+INIT_FILE='/etc/default/haproxy'
+CONFIG_FILE='/etc/haproxy/haproxy.cfg'
+HAPROXY_LB_CONFIG=\
 "
-# Update configuration file content
-frontend $DOMAIN_NAME-frontend
-	bind *:80
-	mode http
-	default_backend $DOMAIN_NAME-backend
+#--$DOMAIN_NAME-params-begin--
 backend $DOMAIN_NAME-backend
 	balance roundrobin
 	server 137296-web-01 54.166.139.118:80 check
 	server 137296-web-02 34.207.237.37:80 check
+frontend $DOMAIN_NAME-frontend
+	bind *:80
+	mode http
+	default_backend $DOMAIN_NAME-backend
+#--$DOMAIN_NAME-params-end--
 "
-# check if config file exist, else create it.
-[ -f "$DEFAULT_CONFIG" ] || touch "$DEFAULT_CONFIG"
+
+[ -f "$INIT_FILE" ] || touch "$INIT_FILE"
 [ -f "$CONFIG_FILE" ] || touch "$CONFIG_FILE"
 
-# Set ENABLE to 1
-if [ "$(grep -Eco '^ENABLED=[01]$' < $DEFAULT_CONFIG)" -gt 0 ]; then
-	sed -i 's/^ENABLED=0$/ENABLED=1/' "$DEFAULT_CONFIG"
+CONFIG_WORDS=$(grep -Eco "$DOMAIN_NAME-backend" < $CONFIG_FILE)
+
+if [ "$(grep -Eco '^ENABLED=[01]$' < $INIT_FILE)" -gt 0 ]; then
+	sed -i 's/^ENABLED=0$/ENABLED=1/' "$INIT_FILE"
 else
-	echo 'ENABLED=1' >> $DEFAULT_CONFIG
+	echo 'ENABLED=1' >> $INIT_FILE
 fi
 
-# Update the HAProxy defualt config file.
-CONFIG_CMD=$(grep -Eco "$DOMAIN_NAME-backend" < $CONFIG_FILE)
-
-if [ "$CONFIG_CMD" -eq 0 ]; then
-	echo -e "$HAPROXY_CONFIG" >> $CONFIG_FILE
+if [ "$CONFIG_WORDS" -eq 0 ]; then
+	echo -e "$HAPROXY_LB_CONFIG" >> $CONFIG_FILE
 else
 	start_tkn="#--$DOMAIN_NAME-params-begin--"
 	end_tkn="#--$DOMAIN_NAME-params-end--"
@@ -45,10 +44,9 @@ else
 	a=$((a - 1))
 	b=$((b + 1))
 	sed -i "$a,$b"d "$CONFIG_FILE"
-	echo -en "$HAPROXY_CONFIG" >> $CONFIG_FILE
+	echo -en "$HAPROXY_LB_CONFIG" >> $CONFIG_FILE
 fi
 
-# Restart haproxy if running, else start.
 if [ "$(pgrep -c haproxy)" -le 0 ]; then
 	service haproxy start
 else
