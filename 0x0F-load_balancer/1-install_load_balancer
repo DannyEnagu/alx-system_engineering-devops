@@ -2,8 +2,8 @@
 # Update packeages and Installs HAproxy load balancer
 sudo apt-get update
 sudo apt-get -y install --no-install-recommends software-properties-common
-sudo add-apt-repository -y ppa:vbernat/haproxy-2.6
-sudo apt-get -y install haproxy=2.6.\*
+sudo add-apt-repository -y ppa:vbernat/haproxy-2.4
+sudo apt-get -y install haproxy
 
 # Important variables definitions.
 CONFIG_FILE='/etc/haproxy/haproxy.cfg'
