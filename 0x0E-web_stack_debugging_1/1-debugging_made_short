@@ -2,4 +2,4 @@
 # configures a server to run Nginx and listening on port 80
 cp /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 service nginx restart
-rm var/run/nginx.pid
+echo "" > var/run/nginx.pid
