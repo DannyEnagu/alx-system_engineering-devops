@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# Script that display information about subdomains
+# expects 2 arguments from the command-line:
+#+   1. Domain name
+#+   2. Supdomain name (optional)
+
+SUB_DOMAINS="$2"
+
+if [ "$#" == 1 ]; then
+   SUB_DOMAINS="www lb-01 web-01 web-02"
+fi
+
+# Get and display domain informations
+
+get_domain_info () {
+      for subName in $SUB_DOMAINS
+      do
+         domain=$subName"."$1
+         domain_info=$(dig "$domain" | grep -A1 'ANSWER SECTION')
+         echo "$domain_info" > ./temp.txt
+         
+         awk -v subname="$subName" '/IN/ {print "The subdomain", subname,
+                         "is a", $4, "record and points to", $5; }' temp.txt
+      done
+      rm -f temp.txt
+
+   return 0
+}
+
+get_domain_info "$1" "$2"
