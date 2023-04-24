@@ -15,7 +15,6 @@ URL = "https://jsonplaceholder.typicode.com"
 if __name__ == "__main__":
     users = requests.get("{}/users/".format(URL))
     todos = requests.get("{}/todos/".format(URL))
-    print(users, todos)
     if (users.status_code == requests.codes.ok and
             todos.status_code == requests.codes.ok):
         file_name = "todo_all_employees.json"
