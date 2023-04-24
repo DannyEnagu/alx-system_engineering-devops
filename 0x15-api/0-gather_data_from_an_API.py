@@ -4,8 +4,8 @@
    and displays the response to standard output using python
    response package.
 """
-import sys
 import requests
+import sys
 
 
 URL = "https://jsonplaceholder.typicode.com"
