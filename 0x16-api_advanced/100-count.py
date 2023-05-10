@@ -63,3 +63,5 @@ def count_words(subreddit, word_list=[], found={}, next_page=None, count=0):
             for key in found:
                 if found[key] != 0:
                     print("{}: {}".format(key, found[key]))
+    else:
+        return
