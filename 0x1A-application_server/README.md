@@ -9,3 +9,4 @@ In this project you will added application server to our web infrastructure, plu
 * [Running Gunicorn](https://docs.gunicorn.org/en/latest/run.html)
 * [Be careful with the way Flask manages slash](https://werkzeug.palletsprojects.com/en/0.14.x/routing/) in [route](https://flask.palletsprojects.com/en/1.0.x/api/#flask.Flask.route) - strict_slashes
 * [Upstart documentation](https://doc.ubuntu-fr.org/upstart)
+* [WSGI](https://www.fullstackpython.com/wsgi-servers.html)
