@@ -6,7 +6,7 @@ server {
         # Set response header
         add_header X-Served-By $hostname;
         root /var/www/html;
-        root /home/ubuntu/AirBnB_clone_v4/web_dynamic;
+        index index.html index.htm index.nginx-debian.html;
 
         server_name _;
 
@@ -16,21 +16,25 @@ server {
 
         # Serve static folder containing CSS, JS and IMG files
         location /static/ {
+                alias /home/ubuntu/AirBnB_clone_v4/web_dynamic/static/;
+                try_files $uri $uri/ =404;
+        }
+
+        location /hbnb_static/ {
+                alias /data/web_static/current/;
         }
 
         # proxy requests to the process listening on port 5000
-
-        location ~ ^/airbnb-dynamic/number_odd_or_even/(\d+)$ {
-                proxy_pass http://127.0.0.1:5001/number_odd_or_even/$1;
+        location /airbnb-onepage/ {
+                proxy_pass http://localhost:5000;
         }
 
         # Proxy requests to the process listening on port 5001.
         # It pass a URI containing an integer value to a Gunicon
         # Application server.
-        location /airbnb-dynamic/ {
-                proxy_pass http://localhost:5001;
+        location ~ ^/airbnb-dynamic/number_odd_or_even/(\d+)$ {
+                proxy_pass http://127.0.0.1:5001/number_odd_or_even/$1;
         }
-
         # proxy requests to the process listening on port 5002
         # to deploy our AirBnB clone v3 - RESTful API project.
         location /api/ {
