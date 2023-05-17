@@ -18,8 +18,8 @@ server {
         # Proxy requests to the process listening on port 5001.
         # It pass a URI containing an integer value to a Gunicon
         # Application server.
-        location /airbnb-dynamic/ {
-                proxy_pass http://localhost:5001;
+        location ~ ^/airbnb-dynamic/number_odd_or_even/(\d+)$ {
+                proxy_pass http://127.0.0.1:5001/number_odd_or_even/$1;
         }
 
         error_page 404 /404.html;
