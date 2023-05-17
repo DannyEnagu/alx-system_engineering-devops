@@ -10,6 +10,16 @@ server {
 
         server_name _;
 
+        location / {
+                proxy_pass http://localhost:5003;
+        }
+
+        # Serve static folder containing CSS, JS and IMG files
+        location /static/ {
+                alias /home/ubuntu/AirBnB_clone_v4/web_dynamic/static/;
+                try_files $uri $uri/ =404;
+        }
+
         # proxy requests to the process listening on port 5000
         location /airbnb-onepage/ {
                 proxy_pass http://localhost:5000;
@@ -20,6 +30,12 @@ server {
         # Application server.
         location /airbnb-dynamic/ {
                 proxy_pass http://localhost:5001;
+        }
+
+        # proxy requests to the process listening on port 5002
+        # to deploy our AirBnB clone v3 - RESTful API project.
+        location /api/ {
+                proxy_pass http://localhost:5002;
         }
 
         error_page 404 /404.html;
