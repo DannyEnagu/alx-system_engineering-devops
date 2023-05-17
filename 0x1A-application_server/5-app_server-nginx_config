@@ -6,7 +6,7 @@ server {
         # Set response header
         add_header X-Served-By $hostname;
         root /var/www/html;
-        index index.html index.htm index.nginx-debian.html;
+        root /home/ubuntu/AirBnB_clone_v4/web_dynamic;
 
         server_name _;
 
@@ -16,8 +16,6 @@ server {
 
         # Serve static folder containing CSS, JS and IMG files
         location /static/ {
-                alias /home/ubuntu/AirBnB_clone_v4/web_dynamic/static/;
-                try_files $uri $uri/ =404;
         }
 
         # proxy requests to the process listening on port 5000
